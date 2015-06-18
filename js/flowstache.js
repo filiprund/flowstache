@@ -2,7 +2,7 @@
 	Flowstache v1.0
 	by Anton Furuholm, Mattias Haal & Filip Rundberg
 
-	Copyright 2014 Flowstache
+	Copyright 2015 Flowstache
 	Licensed under the MIT license
 	http://opensource.org/licenses/MIT
 */
@@ -11,9 +11,9 @@
 	
 	// Plugin data
 	var data = {
-		// userId: '38598442', // if feed from user
+		/* User */ // userId: '38598442', // if you want a feed from a user
 		accessToken: '38598442.ab13617.4de5fadc44a04877b3ddd8f09c6d8232',
-		tagName: 'cityscape', // if feed from tag
+		/* Tag */ tagName: 'cityscape', // if you want a feed from a tag
 		limit: 3 // number of images to be displayed
 	}
 
