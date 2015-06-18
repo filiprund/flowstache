@@ -8,6 +8,7 @@ Demo
 ====
 
 Tutorial on http://haal.se/flowstache
+or on http://filiprundberg.se/flowstache/
 
 
 License
