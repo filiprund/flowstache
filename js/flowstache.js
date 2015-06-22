@@ -1,5 +1,5 @@
 /*
-	Flowstache v1.0
+	Flowstache v1.2
 	by Anton Furuholm, Mattias Haal & Filip Rundberg
 
 	Copyright 2015 Flowstache
@@ -11,12 +11,13 @@
 	
 	// Plugin data
 	var data = {
-		/* User */ // userId: '38598442', // if you want a feed from a user
-		accessToken: '38598442.ab13617.4de5fadc44a04877b3ddd8f09c6d8232',
-		/* Tag */ tagName: 'cityscape', // if you want a feed from a tag
+		get: 'tag', // choose between 'user' and 'tag'
+		userId: [USER ID], // if feed from user
+		accessToken: '[ACCESS TOKEN]', // your access token
+		tagName: 'surf', // if feed from tag
 		limit: 3 // number of images to be displayed
 	}
-
+ 
 	// JSONP request
 	function jsonp(url) {
 		var script, head;
@@ -28,10 +29,32 @@
 
 	// JSONP url
 	(function url() {
-		/* User */ // jsonp('https://api.instagram.com/v1/users/'+data.userId+'/media/recent/?access_token='+data.accessToken+'&count='+data.limit+'&callback=parse'); // if feed from user
-		/* Tag */ jsonp('https://api.instagram.com/v1/tags/'+data.tagName+'/media/recent/?access_token='+data.accessToken+'&count='+data.limit+'&callback=parse'); // if feed from tag
+		var base, endpoint, final;
+		base = 'https://api.instagram.com/v1';
+		switch (data.get) {
+			case 'user':
+				if (typeof data.userId !== 'number') {
+          throw new Error("No user specified. Use the 'userId' option.");
+        }
+        if (typeof data.accessToken !== 'string') {
+          throw new Error("No access token. Use the 'accessToken' option.");
+        }
+				endpoint = 'users/' + data.userId + '/media/recent';
+	      break;
+	    case 'tag':
+	    	if (typeof data.tagName !== 'string') {
+          throw new Error("No tag name specified. Use the 'tagName' option.");
+        }
+				endpoint = 'tags/' + data.tagName + '/media/recent';
+	      break;
+	    default:
+	    	throw new Error("Invalid option for get: '" + data.get + "'. Use one of the valid options: 'user' or 'tag'.");
+		}
+		final = base + '/' + endpoint;
+  	final += '?access_token=' + data.accessToken + '&count=' + data.limit + '&callback=parse';
+    return jsonp(final);
 	})();
-	
+
 	// JSONP callback
 	function parse(response) {
 		var template, html, flow;
